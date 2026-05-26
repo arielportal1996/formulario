@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulario de Datos Personales</title>
+
+    <!-- Librería SheetJS para crear Excel -->
+    <script src="https://cdn.jsdelivr.net/npm/xlsx/dist/xlsx.full.min.js"></script>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f4f4;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .container {
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+            width: 350px;
+            box-shadow: 0px 0px 10px rgba(0,0,0,0.2);
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        input {
+            width: 100%;
+            padding: 10px;
+            margin-top: 10px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            margin-top: 15px;
+            border: none;
+            border-radius: 5px;
+            background: #007bff;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #0056b3;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>Datos Personales</h2>
+
+    <input type="text" id="nombre" placeholder="Nombre">
+    <input type="text" id="apellido" placeholder="Apellido">
+    <input type="number" id="edad" placeholder="Edad">
+    <input type="date" id="fechaNacimiento">
+
+    <button onclick="guardarExcel()">Guardar y Descargar Excel</button>
+</div>
+
+<script>
+    function guardarExcel() {
+
+        // Obtener datos
+        const nombre = document.getElementById("nombre").value;
+        const apellido = document.getElementById("apellido").value;
+        const edad = document.getElementById("edad").value;
+        const fechaNacimiento = document.getElementById("fechaNacimiento").value;
+
+        // Crear arreglo con datos
+        const datos = [
+            ["Nombre", "Apellido", "Edad", "Fecha de Nacimiento"],
+            [nombre, apellido, edad, fechaNacimiento]
+        ];
+
+        // Crear hoja Excel
+        const hoja = XLSX.utils.aoa_to_sheet(datos);
+
+        // Crear libro Excel
+        const libro = XLSX.utils.book_new();
+        XLSX.utils.book_append_sheet(libro, hoja, "Datos");
+
+        // Descargar archivo
+        XLSX.writeFile(libro, "datos_personales.xlsx");
+    }
+</script>
+
+</body>
+</html>
